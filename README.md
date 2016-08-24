@@ -1,0 +1,17 @@
+# Trigram Essay Generator
+
+An educational project intended to study Elixir.  
+Can analyze some text and generate a new text based on it.
+
+Uses the idea behind Markov chains:  
+https://blog.codinghorror.com/markov-and-you/  
+https://en.wikipedia.org/wiki/Trigram
+
+# TODO
+
+## Make it work across workers
+Let it distribute work across distributed machines (pun intended).
+
+## Analyze stream in real time
+Accept a stream, e.g. a hot Twitter topic, and analyze in real-time.  
+Generate random tweets related the input.  
