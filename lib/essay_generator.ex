@@ -1,4 +1,11 @@
 defmodule EssayGenerator do
+  @doc ~S"""
+  Produces a random text from a given analysis
+  Expects analysis be a map and to have source combinations for keys and possible followers as values
+
+  For testing purposes, but not limited to, it can accept follower policy and a starting point
+  The follower policy determines how the next word will be generated
+  """
   def generate(analysis, limit \\ 1000) do
     generate(analysis, limit, &random_follower_policy/1, random_key(analysis))
   end

@@ -84,4 +84,13 @@ defmodule TrigramAnalyzer do
   defp count_grouped(tokens) do
     Enum.map(tokens, fn({token, list}) -> {token, length(list)} end)
   end
+
+
+  @doc ~S"""
+  Analyses the given file
+  """
+  def analyze_file(file, ngram_size \\ 3) do
+    File.read!(file)
+    |> analyze(ngram_size)
+  end
 end

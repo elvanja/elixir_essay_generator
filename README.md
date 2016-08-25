@@ -9,6 +9,8 @@ https://en.wikipedia.org/wiki/Trigram
 
 # TODO
 
+## Use a custom structure for analysis and frequency results
+
 ## Make it work across workers
 Let it distribute work across distributed machines (pun intended).
 
