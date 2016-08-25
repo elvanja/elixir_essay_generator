@@ -39,13 +39,18 @@ defmodule TrigramAnalyzer do
 
   defp count(tokens, ngram_size, acc) when length(tokens) < ngram_size do acc end
   defp count(tokens, ngram_size, acc) do
-    source = Enum.take(tokens, ngram_size - 1) |> List.to_tuple
-    follower = Enum.at(tokens, ngram_size - 1)
-    count(Enum.drop(tokens, 1), ngram_size, store(acc, source, follower))
+    count(Enum.drop(tokens, 1), ngram_size, store(acc, extract_ngram(tokens, ngram_size)))
   end
 
-  defp store(acc, source, follower) do
+  defp store(acc, {source, follower}) do
     Map.update(acc, source, [follower], &(Enum.reverse([follower | &1])))
+  end
+
+  defp extract_ngram(tokens, ngram_size) do
+    ngram = Enum.take(tokens, ngram_size)
+    source = Enum.drop(ngram, -1) |> List.to_tuple
+    follower = List.last(ngram)
+    {source, follower}
   end
 
   @doc ~S"""

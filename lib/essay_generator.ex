@@ -1,6 +1,6 @@
 defmodule EssayGenerator do
   def generate(analysis, limit \\ 1000) do
-    generate(analysis, limit, &random_follower_policy/1, random_element(analysis))
+    generate(analysis, limit, &random_follower_policy/1, random_key(analysis))
   end
   def generate(analysis, limit, follower_policy, start_from) do
     doGenerate(analysis, follower_policy, start_from, Tuple.to_list(start_from) |> Enum.reverse, limit)
@@ -15,9 +15,9 @@ defmodule EssayGenerator do
       nil ->
         acc
       _ ->
-        follower = follower_policy.(followers)
-        next_source = source |> Tuple.delete_at(0) |> Tuple.append(follower)
-        doGenerate(analysis, follower_policy, next_source, [follower | acc], limit)
+        next_follower = follower_policy.(followers)
+        next_source = source |> Tuple.delete_at(0) |> Tuple.append(next_follower)
+        doGenerate(analysis, follower_policy, next_source, [next_follower | acc], limit)
     end
   end
 
@@ -25,7 +25,7 @@ defmodule EssayGenerator do
     followers |> Enum.random
   end
 
-  defp random_element(analysis) do
-    analysis |> Map.keys |> Enum.random
+  defp random_key(map) do
+    map |> Map.keys |> Enum.random
   end
 end

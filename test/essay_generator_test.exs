@@ -9,7 +9,7 @@ defmodule EssayGeneratorTest do
         {"may", "I"} => ["wish"]
   }
 
-  test "generates using 'last follower' policy" do
+  test "generates using custom follower policy" do
     assert EssayGenerator.generate(
         @analysis,
         10,
