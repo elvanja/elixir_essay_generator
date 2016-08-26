@@ -34,7 +34,7 @@ defmodule TrigramAnalyzerTest do
   test "should analyze kata sample data" do
     assert TrigramAnalyzer.analyze("I wish I may I wish I might") == %{
           {"I", "wish"} => ["I", "I"],
-          {"wish", "I"} => ["may", "might"],
+          {"wish", "I"} => ["might", "may"],
           {"I", "may"} => ["I"],
           {"may", "I"} => ["wish"]
     }
@@ -51,7 +51,7 @@ defmodule TrigramAnalyzerTest do
   test "accepts tokens for analysis" do
     assert "I wish I may I wish I might" |> String.split |> TrigramAnalyzer.analyze == %{
           {"I", "wish"} => ["I", "I"],
-          {"wish", "I"} => ["may", "might"],
+          {"wish", "I"} => ["might", "may"],
           {"I", "may"} => ["I"],
           {"may", "I"} => ["wish"]
     }

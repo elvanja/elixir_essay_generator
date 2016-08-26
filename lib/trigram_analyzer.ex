@@ -13,7 +13,7 @@ defmodule TrigramAnalyzer do
           {"quick", "hunting"} => ["dog"],
           {"quick", "red"} => ["fox"],
           {"red", "fox"} => ["jumps"],
-          {"the", "quick"} => ["red", "hunting"]
+          {"the", "quick"} => ["hunting", "red"]
       }
 
       iex> "the quick red fox jumps over the quick hunting dog" |> String.split |> TrigramAnalyzer.analyze
@@ -24,7 +24,7 @@ defmodule TrigramAnalyzer do
           {"quick", "hunting"} => ["dog"],
           {"quick", "red"} => ["fox"],
           {"red", "fox"} => ["jumps"],
-          {"the", "quick"} => ["red", "hunting"]
+          {"the", "quick"} => ["hunting", "red"]
       }
   """
   def analyze(text_or_tokens, ngram_size \\ 3)
@@ -59,7 +59,7 @@ defmodule TrigramAnalyzer do
   end
 
   defp update_occurence({source, follower}, acc) do
-    acc |> Map.update(source, [follower], &(Enum.reverse([follower | &1])))
+    acc |> Map.update(source, [follower], &([follower | &1]))
   end
 
   @doc ~S"""
@@ -92,14 +92,5 @@ defmodule TrigramAnalyzer do
 
   defp count_grouped(tokens) do
     Enum.map(tokens, fn({token, list}) -> {token, length(list)} end)
-  end
-
-
-  @doc ~S"""
-  Analyses the given file
-  """
-  def analyze_file(file, ngram_size \\ 3) do
-    File.read!(file)
-    |> analyze(ngram_size)
   end
 end
