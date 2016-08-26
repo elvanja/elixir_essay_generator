@@ -7,6 +7,13 @@ Uses the idea behind Markov chains:
 https://blog.codinghorror.com/markov-and-you/  
 https://en.wikipedia.org/wiki/Trigram
 
+Try it:
+```
+iex> File.read!("mysterious_affair_at_styles_by_agatha_christie.txt") \
+      |> TrigramAnalyzer.analyze \
+      |> EssayGenerator.generate
+```
+
 # TODO
 
 ## Use a custom structure for analysis and frequency results

@@ -34,23 +34,13 @@ defmodule TrigramAnalyzer do
     |> analyze(ngram_size)
   end
   def analyze(tokens, ngram_size) do
-    count(tokens, ngram_size, %{})
-  end
-
-  defp count(tokens, ngram_size, acc) when length(tokens) < ngram_size do acc end
-  defp count(tokens, ngram_size, acc) do
-    count(Enum.drop(tokens, 1), ngram_size, store(acc, extract_ngram(tokens, ngram_size)))
-  end
-
-  defp store(acc, {source, follower}) do
-    Map.update(acc, source, [follower], &(Enum.reverse([follower | &1])))
-  end
-
-  defp extract_ngram(tokens, ngram_size) do
-    ngram = Enum.take(tokens, ngram_size)
-    source = Enum.drop(ngram, -1) |> List.to_tuple
-    follower = List.last(ngram)
-    {source, follower}
+    tokens
+    |> Stream.chunk(ngram_size, 1)
+    |> Enum.reduce(%{}, fn(ngram, acc) ->
+        source = Enum.drop(ngram, -1) |> List.to_tuple
+        follower = List.last(ngram)
+        Map.update(acc, source, [follower], &(Enum.reverse([follower | &1])))
+      end)
   end
 
   @doc ~S"""
