@@ -10,20 +10,20 @@ defmodule TrigramAnalyzerTest do
     assert TrigramAnalyzer.analyze("one two") == %{}
   end
 
-  test "should analyse triplet" do
+  test "should analyze triplet" do
     assert TrigramAnalyzer.analyze("one two three") == %{
           {"one", "two"} => ["three"]
     }
   end
 
-  test "should analyse four words" do
+  test "should analyze four words" do
     assert TrigramAnalyzer.analyze("one two three four") == %{
           {"one", "two"} => ["three"],
           {"two", "three"} => ["four"]
     }
   end
 
-  test "should analyse repeat" do
+  test "should analyze repeat" do
     assert TrigramAnalyzer.analyze("one two three one two three") == %{
           {"one", "two"} => ["three", "three"],
           {"two", "three"} => ["one"],
@@ -31,7 +31,7 @@ defmodule TrigramAnalyzerTest do
     }
   end
 
-  test "should analyse kata sample data" do
+  test "should analyze kata sample data" do
     assert TrigramAnalyzer.analyze("I wish I may I wish I might") == %{
           {"I", "wish"} => ["I", "I"],
           {"wish", "I"} => ["may", "might"],
