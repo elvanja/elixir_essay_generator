@@ -35,12 +35,31 @@ defmodule TrigramAnalyzer do
   end
   def analyze(tokens, ngram_size) do
     tokens
-    |> Stream.chunk(ngram_size, 1)
-    |> Enum.reduce(%{}, fn(ngram, acc) ->
-        source = Enum.drop(ngram, -1) |> List.to_tuple
-        follower = List.last(ngram)
-        Map.update(acc, source, [follower], &(Enum.reverse([follower | &1])))
-      end)
+    |> to_ngrams(ngram_size)
+    |> to_ngram_tuples
+    |> reduce_occurances
+  end
+
+  defp to_ngrams(tokens, ngram_size) do
+    tokens |> Stream.chunk(ngram_size, 1)
+  end
+
+  defp to_ngram_tuples(ngrams) do
+    ngrams |> Stream.map(&(to_ngram_tuple(&1)))
+  end
+
+  defp to_ngram_tuple(ngram) do
+    source = Enum.drop(ngram, -1) |> List.to_tuple
+    follower = List.last(ngram)
+    {source, follower}
+  end
+
+  defp reduce_occurances(ngram_tuples) do
+    ngram_tuples |> Enum.reduce(%{}, &(update_occurence(&1, &2)))
+  end
+
+  defp update_occurence({source, follower}, acc) do
+    acc |> Map.update(source, [follower], &(Enum.reverse([follower | &1])))
   end
 
   @doc ~S"""
